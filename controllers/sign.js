@@ -16,10 +16,15 @@ var uuid           = require('node-uuid');
 //注册
 
 exports.signup = function (req, res, next) {
-  var loginname = validator.trim(req.body.loginname).toLowerCase();
+  /*var loginname = validator.trim(req.body.name).toLowerCase();
   var email     = validator.trim(req.body.email).toLowerCase();
   var pass      = validator.trim(req.body.pass);
-  var rePass    = validator.trim(req.body.re_pass);
+  var rePass    = validator.trim(req.body.re_pass);*/
+
+  var loginname = req.body.name;
+  var email     = req.body.email;
+  var pass      = req.body.pass;
+  var rePass    = req.body.re_pass;
 
   var ep = new eventproxy();
   ep.fail(next);
@@ -132,7 +137,6 @@ exports.login = function (req, res, next) {
   }
 
   ep.on('login_error', function (login_error) {
-    res.status(403);
     res.send({ status:1,message: '用户名或密码错误' });
   });
 
@@ -140,7 +144,7 @@ exports.login = function (req, res, next) {
     if (err) {
       return next(err);
     }
-    if (user.length == 0) {
+    if (!user) {
       return ep.emit('login_error');
     }
     var passhash = user.pass;
@@ -155,7 +159,7 @@ exports.login = function (req, res, next) {
         return res.send({ status:1 , error: '此帐号还没有被激活，激活链接已发送到 ' + user.email + ' 邮箱，请查收。' });
       }
       // store session cookie
-      authMiddleWare.gen_session(user, res);
+      //authMiddleWare.gen_session(user, res);
       //check at some page just jump to home page
       /*var refer = req.session._loginReferer || '/';
       for (var i = 0, len = notJump.length; i !== len; ++i) {
@@ -164,7 +168,9 @@ exports.login = function (req, res, next) {
           break;
         }
       }*/
-      return res.send({status:0,data:{userType:user.userType}});
+      //得到token
+      var { token } = authMiddleWare.gen_token(user._id);
+      return res.send({status:0,data:{userType:user.userType,token:token}});
     }));
   });
 };

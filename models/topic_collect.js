@@ -1,11 +1,11 @@
 var mongoose  = require('mongoose');
 //var BaseModel = require("./base_model");
 var Schema    = mongoose.Schema;
-var ObjectId  = Schema.ObjectId;
+var ObjectId  = Schema.Types.ObjectId;
 
-var TopicCollectSchema = new Schema({//画集
-  user_id: { type: ObjectId },//画集作者id
-  topic_id: { type: ObjectId },//
+var TopicCollectSchema = new Schema({//图片收藏
+  user_id: { type: String },//收藏者的id
+  topic_id: { type: ObjectId , ref: 'Topic'},//图片
   create_at: { type: Date, default: Date.now }
 });
 

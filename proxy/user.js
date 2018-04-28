@@ -97,6 +97,30 @@ exports.getUserByNameAndKey = function (loginname, key, callback) {
   User.findOne({loginname: loginname, retrieve_key: key}, callback);
 };
 
+/**
+ * 采集画时，向topic字段push
+ * Callback:
+ * - err, 数据库异常
+ * - user, 用户
+ * @param {String} topic 画id
+ * @param {Function} callback 回调函数
+ */
+exports.updateTopic = function ( topic, callback) {
+  User.findByIdAndUpdate({ _id: id }, { $push: { topic: topic, } }, callback);
+};
+
+/**
+ * 删除采集画时，向topic字段pop
+ * Callback:
+ * - err, 数据库异常
+ * - user, 用户
+ * @param {String} topic 画id
+ * @param {Function} callback 回调函数
+ */
+exports.de_Topic = function ( topic, callback) {
+  User.findByIdAndUpdate({ _id: id }, { $pop: { topic: topic, } }, callback);
+};
+
 exports.newAndSave = function (name, loginname, pass, email, avatar_url, active, callback) {
   var user         = new User();
   user.name        = name;

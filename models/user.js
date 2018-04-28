@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 var utility   = require('utility');
+var Schema    = mongoose.Schema;
+var ObjectId  = Schema.Types.ObjectId;
 // 创建schema
 const userSchema = new mongoose.Schema({//用户
     loginname: {//用户名
@@ -15,6 +17,7 @@ const userSchema = new mongoose.Schema({//用户
     	required:true,
     	unique: true,
     },
+    id: {type: Number,default: 0},//用户id
     userType:{type:String,default:'1'},//用户类型，1------用户 2-----管理员
     name:{type:String},//昵称
     email: { type: String},//邮箱
@@ -23,14 +26,18 @@ const userSchema = new mongoose.Schema({//用户
     location: { type: String },//地址
     signature: { type: String },//签名
     weibo: { type: String },//微博
-    avatar: { type: String },//
+    avatar: { type: String },//头像
+    topic: { type: Array },//用户采集的图片的id组成的数组
+    //topic: { type: ObjectId, ref: 'Topic'},//关联topic
 
+    paintings: {type: ObjectId, ref: 'Paintings' },//用户画集关联
     score: { type: Number, default: 0 },//积分
-    img_count: { type: Number, default: 0 },//图片数量
+    img_count: { type: Number, default: 0 },//原创图片数量
     reply_count: { type: Number, default: 0 },//回复数量
     follower_count: { type: Number, default: 0 },//关注者数量
-    collect_tag_count: { type: Number, default: 0 },//
-    collect_img_count: { type: Number, default: 0 },//收藏图片数量
+    paintings_count: { type: Number, default: 0 },//画集数量
+    collect_img_count: { type: Number, default: 0 },//收藏(喜欢)图片数量
+    gather_img_count: { type: Number, default: 0 },//采集图片数量
     create_at: { type: Date, default: Date.now },//创建日期
     update_at: { type: Date, default: Date.now },//更新日期
     is_star: { type: Boolean },//

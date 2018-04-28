@@ -23,12 +23,16 @@ db.once('open', (callback) => {
 // models
 var User = require('./user');
 var Topic = require('./topic');
+var Paintings = require('./paintings');
 var TopicCollect = require('./topic_collect');
 var Reply = require('./reply');
 var Message = require('./message');
+var UserFollow = require('./user_follow');
 
 exports.User = User;
 exports.Topic = Topic;
+exports.Paintings = Paintings;
 exports.TopicCollect = TopicCollect;
 exports.Reply = Reply;
 exports.Message = Message;
+exports.UserFollow = UserFollow;

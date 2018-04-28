@@ -17,24 +17,30 @@ app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({limit: '50mb'}));
+//上传文件是报错413，request entity too large，bodyParser默认限制为1mb,修改默认limit，为50mb
+//上传文件是报错413，too many parameters，bodyParser默认限制参数为,修改默认parameterLimit，为50000
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true, parameterLimit:50000}));
+//app.use(bodyParser.json());
+//app.use(bodyParser.urlencoded({ extended: false }));
 //app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/img_dev', express.static(path.join(__dirname, 'uploads')));
+//app.use(express.static(path.join(__dirname, 'public')));
 
 //中间件---服务器允许Cros实现跨域请求
 var allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');//跨域
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type,authorization');
+    res.header('Access-Control-Allow-Headers', 'Content-Type,authorization,x-requested-with');
     res.header('Access-Control-Allow-Credentials','true');
     next();
 };
 app.all('*',allowCrossDomain);
 
 //通用中间件
-app.use(cookieParser(config.session_secret));
+//app.use(cookieParser(config.session_secret));
 
 
 //路由

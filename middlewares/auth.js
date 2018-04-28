@@ -1,9 +1,11 @@
 var mongoose   = require('mongoose');
 var UserModel  = mongoose.model('User');
 var Message    = require('../proxy').Message;
-var config     = require('../units/config');
+var config     = require('../config');
 var eventproxy = require('eventproxy');
 var UserProxy  = require('../proxy').User;
+var jwt = require('jwt-simple');
+var moment = require('moment');
 
 /**
  * 需要管理员权限
@@ -24,9 +26,11 @@ exports.adminRequired = function (req, res, next) {
  * 需要登录
  */
 exports.userRequired = function (req, res, next) {
-  if (!req.session || !req.session.user || !req.session.user._id) {
-    return res.status(403).send('forbidden!');
+  if(!req.headers.authorization){
+    return res.send({status: 401, message: '当前登录失效，请重新登陆', data: {}});
   }
+  var decoded = jwt.decode(req.headers.authorization, config.jwtTokenSecret);
+  var id = decoded.iss;
 
   next();
 };
@@ -104,3 +108,20 @@ exports.authUser = function (req, res, next) {
     UserProxy.getUserById(user_id, ep.done('get_user'));
   }
 };
+
+exports.gen_token = function(id) {//加密生成token
+  console.log("id----",id);
+  console.log("key----",config.jwtTokenSecret);
+  var expires = moment().add(7,'days').valueOf();
+  var token = jwt.encode({//加密的对象
+    iss: id,
+    exp: expires
+  }, config.jwtTokenSecret);
+
+  return {token:token,expires:expires};
+}
+exports.verify_token = function(token) {//解密得到用户信息
+  var decoded = jwt.decode(token, config.jwtTokenSecret);
+  return decoded; 
+}
+

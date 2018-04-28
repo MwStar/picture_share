@@ -56,7 +56,7 @@ exports.getReplyById = function (id, callback) {
 };
 
 /**
- * 根据主题ID，获取回复列表
+ * 根据图片ID，获取回复列表
  * Callback:
  * - err, 数据库异常
  * - replies, 回复列表
@@ -77,23 +77,24 @@ exports.getRepliesByTopicId = function (id, cb) {
       cb(null, replies);
     });
     for (var j = 0; j < replies.length; j++) {
-      (function (i) {
+      (function (i) {//匿名函数，，(function(i){}(j))----function(i){}是匿名函数，(j)是传入的参数
         var author_id = replies[i].author_id;
-        User.getUserById(author_id, function (err, author) {
+        User.getUserById(author_id, function (err, author) {//根据author_id找到这条评论的作者
           if (err) {
             return cb(err);
           }
-          replies[i].author = author || { _id: '' };
+          replies[i].author_avatar = author.avatar;
+          replies[i].author_name = author.name;
           if (replies[i].content_is_html) {
             return proxy.emit('reply_find');
           }
-          at.linkUsers(replies[i].content, function (err, str) {
+          /*at.linkUsers(replies[i].content, function (err, str) {
             if (err) {
               return cb(err);
             }
             replies[i].content = str;
             proxy.emit('reply_find');
-          });
+          });*/
         });
       })(j);
     }

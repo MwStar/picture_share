@@ -45,6 +45,7 @@ var config = {
 
   session_secret: 'colorful_club_secret', // 务必修改
   auth_cookie_name: 'colorful_club',
+  jwtTokenSecret: 'colorful_club',//jwt加密的密钥
 
   // 程序运行的端口
   port: 3000,

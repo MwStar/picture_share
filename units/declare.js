@@ -9,4 +9,5 @@ bcrypt ：加密
 moment:时间格式化
 validator:表单验证
 lodash:便于处理数组，有类似与es6的功能
+multer:上传文件中间件
 */
