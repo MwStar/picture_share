@@ -14,11 +14,12 @@ const userSchema = new mongoose.Schema({//用户
     },
     pass: {//密码
     	type:String,
-    	required:true,
-    	unique: true,
+/*    	required:true,*/
+    	/*unique: true,*/
     },
     id: {type: Number,default: 0},//用户id
     userType:{type:String,default:'1'},//用户类型，1------用户 2-----管理员
+    super:{type:Boolean,default:false},//超级管理员
     name:{type:String},//昵称
     email: { type: String},//邮箱
     url: { type: String },//用户的个人中心url地址
@@ -26,7 +27,7 @@ const userSchema = new mongoose.Schema({//用户
     location: { type: String },//地址
     signature: { type: String },//签名
     weibo: { type: String },//微博
-    avatar: { type: String },//头像
+    avatar: { type: String ,default: ''},//头像
     topic: { type: Array },//用户采集的图片的id组成的数组
     //topic: { type: ObjectId, ref: 'Topic'},//关联topic
 
@@ -48,6 +49,8 @@ const userSchema = new mongoose.Schema({//用户
     retrieve_key: {type: String},//检索关键词
 
     accessToken: {type: String},//验证
+
+    deleted: { type:Boolean, default: false},//是否被删除
 
 })
 //初始化对象时添加验证，验证传入的值是否合法

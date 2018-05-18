@@ -19,11 +19,15 @@ exports.validateId = function (str) {
   return (/^[a-zA-Z0-9\-_]+$/i).test(str);
 };
 
-exports.bhash = function (str, callback) {
+/*exports.bhash = function (str, callback) {
 	bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
         if (err) return next(err);
   		bcrypt.hash(str, salt, callback);
 	})
+};*/
+
+exports.bhash = function (str, callback) {
+  bcrypt.hash(str, SALT_WORK_FACTOR, callback);
 };
 
 exports.bcompare = function (str, hash, callback) {

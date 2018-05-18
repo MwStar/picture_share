@@ -9,6 +9,13 @@ exports.getFollowerById = function (userId, callback) {
 
 };
 
+//根据关注人id,被关注人id得到一条数据
+exports.getByAllId = function (userId, authorId, callback) {
+  UserFollow.findOne({user_id: userId,author_id:authorId})
+        		.exec(callback)
+
+};
+
 
 exports.newAndSave = function (userId, authorId, callback) {
   var userfollow      = new UserFollow();

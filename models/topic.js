@@ -18,7 +18,10 @@ const topicSchema = new mongoose.Schema({//图片
 	pixels: { type:String },//图片像素大小
 	params: { type:Array },//图片参数（如光圈）
 
-	checked: {type:Boolean,default:false},//是否通过验证
+	check: {type:Boolean,default:false},//是否通过了优图审核
+	status: {type:Boolean,default:false},//审核状态
+	checked: {type:Boolean,default:false},//是否通过人工审核
+	dotag: {type:Boolean,default:false},//是否通过人工打标签
 	deleted: { type:Boolean, default: false},//是否被删除
 
 	top: { type:Boolean,default:false },//图片是否被推荐

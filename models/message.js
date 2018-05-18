@@ -11,16 +11,20 @@ var ObjectId  = Schema.Types.ObjectId;
  */
 
 var MessageSchema = new Schema({//消息
-  type: { type: String },
-  master_id: { type: ObjectId},
-  author_id: { type: ObjectId },//用户id
-  img_id: { type: ObjectId },//图片id
-  reply_id: { type: ObjectId },//回复者id
+  type: { type: String },//消息类型，，1---评论，2-----回复，3-----关注用户
+  master_id: { type: ObjectId, ref:'User'},//做出这个行为的用户
+  master: { type: ObjectId, ref:'User'},//做出这个行为的用户
+  author_id: { type: ObjectId, ref:'User' },//用户id
+  author: { type: ObjectId, ref:'User' },//用户id
+  img_id: { type: ObjectId , ref: 'Topic'},//图片id
+  img: { type: ObjectId , ref: 'Topic'},//图片id
+  reply_id: { type: ObjectId , ref:'Reply'},//回复（内容）id
+  reply: { type: ObjectId , ref:'Reply'},//回复（内容）id
   has_read: { type: Boolean, default: false },//是否已读
   create_at: { type: Date, default: Date.now }
 });
 
-MessageSchema.index({master_id: 1, has_read: -1, create_at: -1});
+MessageSchema.index({has_read: -1, create_at: -1});
 
 const Message = mongoose.model('Message', MessageSchema);
 module.exports = Message;

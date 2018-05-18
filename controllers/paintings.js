@@ -7,20 +7,35 @@ var authMiddleWare = require('../middlewares/auth');
 
 //创建画集
 /*参数：title----画集名称
-	content----画集描述
+  content----画集描述
 返回：画集id
 */
 exports.create = function(req, res, next){
-	var title = req.body.paintings_title;
-	var content = req.body.paintings_content;
-	//得到用户id
-	var decoded = authMiddleWare.verify_token(req.headers.authorization);
-	var id = decoded.iss;
-	Paintings.newAndSave(title, content, id, function(err,paintings){
+  var title = req.body.paintings_title;
+  var content = req.body.paintings_content;
+  //得到用户id
+  var decoded = authMiddleWare.verify_token(req.headers.authorization);
+  var id = decoded.iss;
+  Paintings.newAndSave(title, content, id, function(err,paintings){
         if (err) {
           return next(err);
         }
         res.send({status: 0, message: "success", data: { id: paintings._id }})
+      })
+}
+
+//删除画集
+/*参数：id:画集id
+返回：画集id
+*/
+exports.delete = function(req, res, next){
+	var id = req.query.id;
+  console.log("id----",id);
+	Paintings.removePaintings(id, function(err,paintings){
+        if (err) {
+          return next(err);
+        }
+        res.send({status: 0, message: "success", data: {}});
       })
 }
 
@@ -118,11 +133,27 @@ exports.getById = function (req, res, next) {
 
 //发现-----所有原创画集，根据画集的作者的关注人数来排序
 exports.getAllForSearch = function (req, res, next) {
-  Paintings.getAll(function(err,paintings){
+  const page = req.body.page;
+  var ep = new EventProxy();
+  ep.all('paintings','count', function(paintings, count){
+      const newpage = {
+        pageNum:page.pageNum,
+        total:count,
+        pageSize:page.pageSize,
+      }
+      res.send({status: 0, message: "success", data: {paintings,page:newpage} });
+  });
+  Paintings.getAll(page, function(err,paintings){
     if (err) {
           return next(err);
         }
-        res.send({status: 0, message: "success", data: paintings });
+        ep.emit('paintings', paintings);
+  })
+  Paintings.getCountByQuery({}, function(err,count){
+    if (err) {
+          return next(err);
+        }
+        ep.emit('count', count);
   })
 
 }

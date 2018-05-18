@@ -29,8 +29,7 @@ exports.signup = function (req, res, next) {
   var ep = new eventproxy();
   ep.fail(next);
   ep.on('prop_err', function (msg) {
-    res.status(422);
-    res.send({status:422,message: msg, loginname: loginname, email: email});
+    res.send({status:1,message: msg, loginname: loginname, email: email});
   });
 
   // 验证信息的正确性
@@ -68,8 +67,8 @@ exports.signup = function (req, res, next) {
     //密码加密
     tools.bhash(pass, ep.done(function (passhash) {
       // create gravatar生成头像
-      var avatarUrl = User.makeGravatar(email);
-      User.newAndSave(loginname, loginname, passhash, email, avatarUrl, false, function (err) {
+      //var avatarUrl = User.makeGravatar(email);
+      User.newAndSave(loginname, loginname, passhash, email, false, function (err) {
         if (err) {
           return next(err);
         }
@@ -103,12 +102,6 @@ exports.signup = function (req, res, next) {
  * define some page when login just jump to the home page
  * @type {Array}
  */
-var notJump = [
-  '/active_account', //active page
-  '/reset_pass',     //reset password page, avoid to reset twice
-  '/signup',         //regist page
-  '/search_pass'    //serch pass page
-];
 
 /**
  * Handle user login.登录验证
@@ -118,14 +111,13 @@ var notJump = [
  * @param {Function} next
  */
 exports.login = function (req, res, next) {
-  var loginname = validator.trim(req.body.name).toLowerCase();
-  var pass      = validator.trim(req.body.pass);
+  var loginname = req.body.name;
+  var pass      = req.body.pass;
   var ep        = new eventproxy();
 
   ep.fail(next);
 
   if (!loginname || !pass) {
-    res.status(422);
     return res.send({ status:1, message: '信息不完整。' });
   }
 
@@ -155,8 +147,7 @@ exports.login = function (req, res, next) {
       if (!user.active) {
         // 重新发送激活邮件
         mail.sendActiveMail(user.email, utility.md5(user.email + passhash + config.session_secret), user.loginname);
-        res.status(403);
-        return res.send({ status:1 , error: '此帐号还没有被激活，激活链接已发送到 ' + user.email + ' 邮箱，请查收。' });
+        return res.send({ status:1 , message: '此帐号还没有被激活，激活链接已发送到 ' + user.email + ' 邮箱，请查收。' });
       }
       // store session cookie
       //authMiddleWare.gen_session(user, res);
@@ -175,12 +166,6 @@ exports.login = function (req, res, next) {
   });
 };
 
-// sign out
-exports.signout = function (req, res, next) {
-  req.session.destroy();
-  res.clearCookie(config.auth_cookie_name, { path: '/' });
-  res.redirect('/');
-};
 
 exports.activeAccount = function (req, res, next) {
   var key  = validator.trim(req.query.key);
@@ -242,32 +227,7 @@ exports.updateSearchPass = function (req, res, next) {
   });
 };
 
-/**
- * reset password
- * 'get' to show the page, 'post' to reset password
- * after reset password, retrieve_key&time will be destroy
- * @param  {http.req}   req
- * @param  {http.res}   res
- * @param  {Function} next
- */
-exports.resetPass = function (req, res, next) {
-  var key  = validator.trim(req.query.key || '');
-  var name = validator.trim(req.query.name || '');
 
-  User.getUserByNameAndKey(name, key, function (err, user) {
-    if (!user) {
-      res.status(403);
-      return res.render('notify/notify', {error: '信息有误，密码无法重置。'});
-    }
-    var now = new Date().getTime();
-    var oneDay = 1000 * 60 * 60 * 24;
-    if (!user.retrieve_time || now - user.retrieve_time > oneDay) {
-      res.status(403);
-      return res.render('notify/notify', {error: '该链接已过期，请重新申请。'});
-    }
-    return res.render('sign/reset', {name: name, key: key});
-  });
-};
 
 exports.updatePass = function (req, res, next) {
   var psw   = validator.trim(req.body.psw) || '';

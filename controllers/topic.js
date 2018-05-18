@@ -1,109 +1,31 @@
 var validator = require('validator');
-
+var Path = require('path');
+var tencentyoutuyun = require('tencentyoutuyun');
 var at           = require('../common/at');
 var User         = require('../proxy').User;
 var Topic        = require('../proxy').Topic;
+var DownLoad        = require('../proxy').DownLoad;
 var Paintings = require('../proxy').Paintings;
 var TopicCollect = require('../proxy').TopicCollect;
+var Reply = require('../proxy').Reply;
 var EventProxy   = require('eventproxy');
 var tools        = require('../common/tools');
-var store        = require('../common/store');
+var message        = require('../common/message');
 var config       = require('../config');
 //var _            = require('lodash');
 //var cache        = require('../common/cache');
 var logger = require('../common/logger');
 var authMiddleWare = require('../middlewares/auth');
 
-/**
- * Topic page
- *
- * @param  {HttpRequest} req
- * @param  {HttpResponse} res
- * @param  {Function} next
- */
-/*exports.index = function (req, res, next) {
-  function isUped(user, reply) {
-    if (!reply.ups) {
-      return false;
-    }
-    return reply.ups.indexOf(user._id) !== -1;
-  }
+var conf  = tencentyoutuyun.conf;
+var youtu = tencentyoutuyun.youtu;
+// 设置开发者和应用信息, 请填写你在开放平台
+var appid = config.tencent.appid;
+var secretId = config.tencent.secretId;
+var secretKey = config.tencent.secretKey;
+var userid = '2397560398';
 
-  var topic_id = req.params.tid;
-  var currentUser = req.session.user;
-
-  if (topic_id.length !== 24) {
-    return res.render404('此话题不存在或已被删除。');
-  }
-  var events = ['topic', 'other_topics', 'no_reply_topics', 'is_collect'];
-  var ep = EventProxy.create(events,
-    function (topic, other_topics, no_reply_topics, is_collect) {
-    res.render('topic/index', {
-      topic: topic,
-      author_other_topics: other_topics,
-      no_reply_topics: no_reply_topics,
-      is_uped: isUped,
-      is_collect: is_collect,
-    });
-  });
-
-  ep.fail(next);
-
-  Topic.getFullTopic(topic_id, ep.done(function (message, topic, author, replies) {
-    if (message) {
-      logger.error('getFullTopic error topic_id: ' + topic_id)
-      return res.renderError(message);
-    }
-
-    topic.visit_count += 1;
-    topic.save();
-
-    topic.author  = author;
-    topic.replies = replies;
-
-    // 点赞数排名第三的回答，它的点赞数就是阈值
-    topic.reply_up_threshold = (function () {
-      var allUpCount = replies.map(function (reply) {
-        return reply.ups && reply.ups.length || 0;
-      });
-      allUpCount = _.sortBy(allUpCount, Number).reverse();
-
-      var threshold = allUpCount[2] || 0;
-      if (threshold < 3) {
-        threshold = 3;
-      }
-      return threshold;
-    })();
-
-    ep.emit('topic', topic);
-
-    // get other_topics
-    var options = { limit: 5, sort: '-last_reply_at'};
-    var query = { author_id: topic.author_id, _id: { '$nin': [ topic._id ] } };
-    Topic.getTopicsByQuery(query, options, ep.done('other_topics'));
-
-    // get no_reply_topics
-    cache.get('no_reply_topics', ep.done(function (no_reply_topics) {
-      if (no_reply_topics) {
-        ep.emit('no_reply_topics', no_reply_topics);
-      } else {
-        Topic.getTopicsByQuery(
-          { reply_count: 0, tab: {$nin: ['job', 'dev']}},
-          { limit: 5, sort: '-create_at'},
-          ep.done('no_reply_topics', function (no_reply_topics) {
-            cache.set('no_reply_topics', no_reply_topics, 60 * 1);
-            return no_reply_topics;
-          }));
-      }
-    }));
-  }));
-
-  if (!currentUser) {
-    ep.emit('is_collect', null);
-  } else {
-    TopicCollect.getTopicCollect(currentUser._id, topic_id, ep.done('is_collect'))
-  }
-};*/
+conf.setAppInfo(appid, secretId, secretKey, userid, 0)
 
 //上传一张图片
 exports.put = function (req, res, next) {
@@ -127,18 +49,36 @@ exports.put = function (req, res, next) {
     if (err) {
           return next(err);
         }
-
-    Topic.newAndSave(title, path ,tag, content, address , params , id, id, function (err, topic) {
+      //标签
+    youtu.imagetag('/learn/graduationProject/color_h/picture_share/uploads/images/'+path, function(data){
+        console.log("imagetag:" + JSON.stringify(data.data.tags));
+        JSON.stringify(data.data.tags).map((item)=>{
+          if(item.tag_confidence >= 40){
+            tag.push(item.tag_name);
+          }
+        })
+    });
+    console.log("allTag---",tag);
+    //色情图像检测
+    /*youtu.imageporn('/learn/graduationProject/color_h/picture_share/uploads/images/'+path, function(data){
+        console.log("imageporn:" + JSON.stringify(data.data.tags));
+    });*/
+    //美食检测
+    /*youtu.fooddetect('/learn/graduationProject/color_h/picture_share/uploads/images/'+path, function(data){
+        console.log("fooddetect:" + JSON.stringify(data.data.food));
+    });*/
+    Topic.newAndSave(title, path ,tag, content, address , params , id, id, true, function (err, topic) {
       if (err) {
         return next(err);
       }
 
       //上传这张画的用户图片数量+1，积分+1
-
+      User.updateTopic(id,topic._id, function(err, user){
+        user.gather_img_count +=1;
         user.score += 1;
         user.img_count += 1;
         user.save();
-
+      });
 
       //将画放入一个画集
       if(paintings_title){//新建:画集title，画集的描述，用户id
@@ -169,6 +109,18 @@ exports.put = function (req, res, next) {
     });
   });
 };
+
+//用户下载某一张图片
+exports.download = function (req, res, next) {
+  const id = req.query.id;
+  DownLoad.newAndSave(id,function(err,download){
+    Topic.getFullTopic(id, function(err,topic){
+      topic.download_count +=1;
+      topic.save();
+    })  
+  })
+}
+
 
 //得到用户下所有采集的图片
 exports.getAll = function (req, res, next) {
@@ -233,11 +185,21 @@ exports.getCollect = function (req, res, next) {
 //得到一张图片的信息
 exports.getInfo = function (req, res, next) {
   const id = req.query.id;
+  var ep = new EventProxy();
+  ep.all('imgInfo','replyInfo', function(img, reply){
+      res.send({status: 0, message: "success", data: {img,reply} });
+  });
   Topic.getTopicById(id, function (err, topic){
     if(err){
       return next(err);
     }
-    res.send({status:0, message:"success", data:topic});
+    ep.emit('imgInfo', topic);
+  })
+  Reply.getRepliesByTopicId(id, function (err, reply){
+    if(err){
+      return next(err);
+    }
+    ep.emit('replyInfo', reply);
   })
 }
 
@@ -260,7 +222,7 @@ exports.putToPaintings = function (req, res, next) {
           }
           res.send({status: 0, message: "success", data:{ }});
         })
-    User.updateTopic(picture_id, function(err, user){
+    User.updateTopic(id,picture_id, function(err, user){
         user.gather_img_count +=1;
         user.save();
     })
@@ -292,6 +254,11 @@ exports.de_gatherPicture = function (req, res, next) {
           if(!paintings){
             return res.send({status: 1, message: "画集里没有这张图"});
           }
+          console.log("paintings----",paintings);
+          if(paintings.topic.length <= 1 ){
+            paintings.cover_path = '';
+            paintings.save();
+          }
           res.send({status: 0, message: "success", data:{ }});
         })
     User.de_Topic(picture_id, function(err, user){
@@ -308,73 +275,100 @@ exports.de_gatherPicture = function (req, res, next) {
 
 //首页------所有图片，根据download_count来排序
 exports.getAllForIndex = function (req, res, next) {
-  Topic.getAll('download_count', function(err,topic){
+  const page = req.body.page;
+  var ep = new EventProxy();
+  ep.all('img','count', function(img, count){
+      const newpage = {
+        pageNum:page.pageNum,
+        total:count,
+        pageSize:page.pageSize,
+      }
+      res.send({status: 0, message: "success", data: {img,page:newpage} });
+  });
+  Topic.getAll({'deleted':false}, {'download_count':-1} , page, function(err,topic){
     if (err) {
           return next(err);
         }
-        res.send({status: 0, message: "success", data: topic });
+        ep.emit('img', topic);
+        //res.send({status: 0, message: "success", data: topic });
+  })
+  Topic.getCountByQuery({'deleted':false}, function(err, count){
+    if (err) {
+          return next(err);
+        }
+        ep.emit('count', count);
   })
 
 }
 
 //最新-----图片，根据图片create_at创建时间来排序
 exports.getAllForNew = function (req, res, next) {
-  Topic.getAll('create_at', function(err,topic){
+  const page = req.body.page;
+  const query = req.body.query || {};
+  const newQuery = {
+    ...query,
+    'deleted':false,
+  }
+  var ep = new EventProxy();
+  ep.all('img','count', function(img, count){
+      const newpage = {
+        pageNum:page.pageNum,
+        total:count,
+        pageSize:page.pageSize,
+      }
+      res.send({status: 0, message: "success", data: {img,page:newpage} });
+  });
+  Topic.getAll(newQuery, {'create_at':-1}, page, function(err,topic){
     if (err) {
           return next(err);
         }
-        res.send({status: 0, message: "success", data: topic });
+        ep.emit('img', topic);
+        //res.send({status: 0, message: "success", data: topic });
+  })
+  Topic.getCountByQuery(newQuery, function(err, count){
+    if (err) {
+          return next(err);
+        }
+        ep.emit('count', count);
   })
 
 }
 
 //首页------搜索图片，根据download_count来排序
 exports.getByQuery = function (req, res, next) {
+  const page = req.body.page;
   const key = req.body.key;
-  Topic.getTopicsByQuery(key, function(err,topic){
+  Topic.getTopicsByQuery(key, page, function(err,img){
     if (err) {
           return next(err);
         }
-        res.send({status: 0, message: "success", data: topic });
+        const count = img.length;
+        const newpage = {
+          pageNum:page.pageNum,
+          total:count,
+          pageSize:page.pageSize,
+        }
+        res.send({status: 0, message: "success", data: {img,page:newpage} });
   })
 
 }
 
 
-
-exports.showEdit = function (req, res, next) {
-  var topic_id = req.params.tid;
-
-  Topic.getTopicById(topic_id, function (err, topic, tags) {
-    if (!topic) {
-      res.render404('此话题不存在或已被删除。');
-      return;
-    }
-
-    if (String(topic.author_id) === String(req.session.user._id) || req.session.user.is_admin) {
-      res.render('topic/edit', {
-        action: 'edit',
-        topic_id: topic._id,
-        title: topic.title,
-        content: topic.content,
-        tab: topic.tab,
-        tabs: config.tabs
-      });
-    } else {
-      res.renderError('对不起，你不能编辑此话题。', 403);
-    }
-  });
-};
-
 //更新图片信息
 exports.update = function (req, res, next) {
-
-  var topic_id   = req.body.id;
+  var topic_id = req.body.id;
   var title   = req.body.title;
   var tag     = req.body.tag;
   var content = req.body.content;
   var address = req.body.address;
   var params = req.body.params;
+  var old_p = req.body.old_p;
+  var new_p = req.body.new_p;
+
+  var ep = new EventProxy();
+  ep.all('save', 'delete', 'add', function(save ,old, new_p){
+      res.send({status: 0, message: "修改图片信息成功", });
+  });
 
   //验证token,得到用户
   var decoded = authMiddleWare.verify_token(req.headers.authorization);
@@ -385,9 +379,6 @@ exports.update = function (req, res, next) {
       res.send({status:1, message:'此图片不存在或已被删除。'});
       return;
     }
-
-    if (topic.author_id === id) {
-
       //保存图片
       topic.title     = title;
       topic.tag     = tag;
@@ -400,15 +391,79 @@ exports.update = function (req, res, next) {
         if (err) {
           return next(err);
         }
-        res.send({status:0, message:'修改图片信息成功'});
+        ep.emit('save', {});
       });
-    } else {
-      res.send({status:1, message:'对不起，你不能修改此图片信息。'});
+      User.getUserById(id, function(err, user){
+        if(user.userType === '1' || user.userType === '3'){
+          if(old_p === new_p){
+            ep.emit('delete', {});
+            ep.emit('add', {});
+          }
+          else{
+
+            Paintings.de_Topic(old_p, topic_id, function(err, paintings){
+              if (err) {
+                  return next(err);
+                }
+              ep.emit('delete', paintings);
+            })
+
+            Paintings.updateTopic(new_p, topic_id,function(err, paintings){
+              if (err) {
+                  return next(err);
+                }
+              ep.emit('add', paintings);
+            })
+          }
+        }
+        else{
+          ep.emit('delete', {});
+          ep.emit('add', {});
+        }
+      })
+
+  });
+};
+
+//更新图片信息---只修改所属画集
+exports.updatePaintings = function (req, res, next) {
+  var topic_id = req.body.id;
+  var old_p = req.body.old_p;
+  var new_p = req.body.new_p;
+  var ep = new EventProxy();
+  ep.all('delete','add', function(old, new_p){
+      res.send({status: 0, message: "修改图片所属画集成功", });
+  });
+
+  Topic.getTopicById(topic_id, function (err, topic) {
+    if (!topic) {
+      res.send({status:1, message:'此图片不存在或已被删除。'});
+      return;
+    }
+    if(old_p === new_p){
+        ep.emit('delete', {});
+        ep.emit('add', {});
+      }
+    else{
+      Paintings.de_Topic(old_p, function(err, paintings){
+        if (err) {
+            return next(err);
+          }
+        ep.emit('delete', paintings);
+      })
+
+      Paintings.updateTopic(new_p, function(err, paintings){
+        if (err) {
+            return next(err);
+          }
+        ep.emit('add', paintings);
+      })
+      
     }
   });
 };
 
-//删除图片，只有摄影师有这个权限
+//删除图片，只有管理员有这个权限
 exports.delete = function (req, res, next) {
   //删除话题, 话题作者topic_count减1
   //删除回复，回复作者reply_count减1
@@ -439,10 +494,12 @@ exports.delete = function (req, res, next) {
       if (user.userType === '1') {
         return res.send({status:1, message: '无权限'});
       }
-     
-      user.score -= 5;
-      user.topic_count -= 1;
-      user.save();
+     if(user.userType === '3'){
+
+        user.score -= 5;
+        user.topic_count -= 1;
+        user.save();
+     }
 
     })
     topic.deleted = true;
@@ -455,80 +512,6 @@ exports.delete = function (req, res, next) {
   });
 };
 
-// 设为置顶
-exports.top = function (req, res, next) {
-  var topic_id = req.params.tid;
-  var referer  = req.get('referer');
-
-  if (topic_id.length !== 24) {
-    res.render404('此话题不存在或已被删除。');
-    return;
-  }
-  Topic.getTopic(topic_id, function (err, topic) {
-    if (err) {
-      return next(err);
-    }
-    if (!topic) {
-      res.render404('此话题不存在或已被删除。');
-      return;
-    }
-    topic.top = !topic.top;
-    topic.save(function (err) {
-      if (err) {
-        return next(err);
-      }
-      var msg = topic.top ? '此话题已置顶。' : '此话题已取消置顶。';
-      res.render('notify/notify', {success: msg, referer: referer});
-    });
-  });
-};
-
-// 设为精华
-exports.good = function (req, res, next) {
-  var topicId = req.params.tid;
-  var referer = req.get('referer');
-
-  Topic.getTopic(topicId, function (err, topic) {
-    if (err) {
-      return next(err);
-    }
-    if (!topic) {
-      res.render404('此话题不存在或已被删除。');
-      return;
-    }
-    topic.good = !topic.good;
-    topic.save(function (err) {
-      if (err) {
-        return next(err);
-      }
-      var msg = topic.good ? '此话题已加精。' : '此话题已取消加精。';
-      res.render('notify/notify', {success: msg, referer: referer});
-    });
-  });
-};
-
-// 锁定主题，不可再回复
-exports.lock = function (req, res, next) {
-  var topicId = req.params.tid;
-  var referer = req.get('referer');
-  Topic.getTopic(topicId, function (err, topic) {
-    if (err) {
-      return next(err);
-    }
-    if (!topic) {
-      res.render404('此话题不存在或已被删除。');
-      return;
-    }
-    topic.lock = !topic.lock;
-    topic.save(function (err) {
-      if (err) {
-        return next(err);
-      }
-      var msg = topic.lock ? '此话题已锁定。' : '此话题已取消锁定。';
-      res.render('notify/notify', {success: msg, referer: referer});
-    });
-  });
-};
 
 // 收藏(喜欢)图片
 exports.collect = function (req, res, next) {
@@ -542,7 +525,7 @@ exports.collect = function (req, res, next) {
       return next(err);
     }
     if (!topic) {
-      return res.json({status: 1, message:"收藏图片失败,这张图不存在"});
+      return res.json({status: 1, message:"喜欢图片失败,这张图不存在"});
     }
 
     TopicCollect.getTopicCollect(id, topic._id, function (err, doc) {
@@ -550,7 +533,7 @@ exports.collect = function (req, res, next) {
         return next(err);
       }
       if (doc) {
-        res.json({status: 1, message:"不可再次收藏"});
+        res.json({status: 1, message:"不可再次喜欢"});
         return;
       }
       console.log("topic----",topic);
@@ -558,7 +541,7 @@ exports.collect = function (req, res, next) {
         if (err) {
           return next(err);
         }
-        res.json({status: 0, message:"收藏图片成功"});
+        res.json({status: 0, message:"喜欢图片成功"});
       });
       User.getUserById(id, function (err, user) {
         if (err) {
@@ -611,32 +594,71 @@ exports.de_collect = function (req, res, next) {
   });
 };
 
-exports.upload = function (req, res, next) {
-  var isFileLimit = false;
-  req.busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
-      file.on('limit', function () {
-        isFileLimit = true;
-
-        res.json({
-          success: false,
-          msg: 'File size too large. Max is ' + config.file_limit
-        })
-      });
-
-      store.upload(file, {filename: filename}, function (err, result) {
-        if (err) {
+//得到未审核的图片
+exports.getPictureNochecked = function (req, res, next) {
+  const page = req.body.page;
+  var ep = new EventProxy();
+  ep.all('img','count', function(img, count){
+      const newpage = {
+        pageNum:page.pageNum,
+        total:count,
+        pageSize:page.pageSize,
+      }
+      res.send({status: 0, message: "success", data: {img,page:newpage} });
+  });
+  Topic.getAll({checked:false,check:false,status:false},'download_count', page, function(err,topic){
+    if (err) {
           return next(err);
         }
-        if (isFileLimit) {
-          return;
+        ep.emit('img', topic);
+        //res.send({status: 0, message: "success", data: topic });
+  })
+  Topic.getCountByQuery({checked:false,check:false,status:false}, function(err, count){
+    if (err) {
+          return next(err);
         }
-        res.json({
-          success: true,
-          url: result.url,
-        });
-      });
-
-    });
-
-  req.pipe(req.busboy);
+        ep.emit('count', count);
+  })
 };
+//审核人工图片
+exports.checked = function (req, res, next) {
+  const id = req.body.id;
+  const status = req.body.status;
+  Topic.getById(id, function(err, topic){
+    if(err){
+      return next(err)
+    }
+    if(!topic){
+      return res.send({status: 1, message: "此图片不存在", data: {} });
+    }
+    if(status === 1){
+      topic.checked = true;
+      topic.status = true;
+      topic.save();
+    }else{     
+      topic.checked = false;//未通过审核
+      topic.deleted = true;//删除
+      topic.status = true;//已审核
+      topic.save();
+    }
+    res.send({status: 0, message: "success", data: {} });
+  })
+};
+//打标签
+exports.doTag = function (req, res, next) {
+  const id = req.body.id;
+  const tag = req.body.tag;
+  Topic.getById(id, function(err, topic){
+    if(err){
+      return next(err)
+    }
+    if(!topic){
+      return res.send({status: 1, message: "此图片不存在", data: {} });
+    }
+      topic.tag = tag;
+      topic.dotag = true;
+      topic.save();
+      res.send({status: 0, message: "success", data: {} });
+  })
+};
+

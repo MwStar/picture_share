@@ -85,6 +85,31 @@ exports.getUsersByQuery = function (query, opt, callback) {
 };
 
 /**
+ * 获取一组用户,并分页
+ * Callback:
+ * - err, 数据库异常
+ * - users, 用户列表
+ * @param {Object} query 搜索条件
+ * @param {Object} page 分页信息
+ * @param {Function} callback 回调函数
+ */
+exports.getUsersPaging = function (query, page, callback) {
+  if(page.pageNum === 1){
+    User.find(query)
+        .limit(page.pageSize)
+        .sort({"create_at":-1})
+        .exec(callback);
+  }
+  else{    
+    User.find(query)
+          .skip((page.pageNum-1) * page.pageSize)
+          .limit(page.pageSize)
+          .sort({"create_at":-1})
+          .exec(callback);
+  }
+};
+
+/**
  * 根据查询条件，获取一个用户
  * Callback:
  * - err, 数据库异常
@@ -105,7 +130,7 @@ exports.getUserByNameAndKey = function (loginname, key, callback) {
  * @param {String} topic 画id
  * @param {Function} callback 回调函数
  */
-exports.updateTopic = function ( topic, callback) {
+exports.updateTopic = function (id, topic, callback) {
   User.findByIdAndUpdate({ _id: id }, { $push: { topic: topic, } }, callback);
 };
 
@@ -117,20 +142,58 @@ exports.updateTopic = function ( topic, callback) {
  * @param {String} topic 画id
  * @param {Function} callback 回调函数
  */
-exports.de_Topic = function ( topic, callback) {
+exports.de_Topic = function (id, topic, callback) {
   User.findByIdAndUpdate({ _id: id }, { $pop: { topic: topic, } }, callback);
 };
 
-exports.newAndSave = function (name, loginname, pass, email, avatar_url, active, callback) {
+/**
+ * 得到所有用户数量----根据userType来分组
+ * Callback:
+ * - err, 数据库异常
+ * - users, 用户列表
+ * @param {Function} callback 回调函数
+ */
+exports.getAllCount = function (callback) {
+  User.aggregate([
+
+　　{$group:{_id:"$userType",count:{$sum:1},}}
+
+  ],callback);
+};
+
+/**
+ * 得到所有用户数量-----不分组
+ * @param {Object} query 搜索条件
+ * Callback:
+ * - err, 数据库异常
+ * - count, 数量
+ * @param {Function} callback 回调函数
+ */
+exports.getCount = function (query, callback) {
+  User.count(query,callback);
+};
+
+exports.newAndSave = function (name, loginname, pass, email, active, callback) {
   var user         = new User();
   user.name        = name;
   user.loginname   = loginname;
   user.pass        = pass;
   user.email       = email;
-  user.avatar      = avatar_url;
   user.active      = active || false;
   user.accessToken = uuid.v4();
 
+  user.save(callback);
+};
+
+exports.newUser = function (userType, loginname, pass, email, callback) {
+  console.log("info----",loginname,pass,email);
+  var user         = new User();
+  user.userType   = userType;
+  user.loginname   = loginname;
+  user.name        = loginname;
+  user.pass        = pass;
+  user.email       = email;
+  user.active      = true;
   user.save(callback);
 };
 //生成头像

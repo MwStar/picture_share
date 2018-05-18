@@ -46,11 +46,11 @@ exports.sendActiveMail = function (who, token, name) {
   var to      = who;
   var subject = config.name + '社区帐号激活';
   var html    = '<p>您好：' + name + '</p>' +
-    '<p>我们收到您在' + config.name + '社区的注册信息，请点击下面的链接来激活帐户：</p>' +
+    '<p>我们收到您在' + config.name + '的注册信息，请点击下面的链接来激活帐户：</p>' +
     '<a href  = "' + SITE_ROOT_URL + '/active_account?key=' + token + '&name=' + name + '">激活链接</a>' +
-    '<p>若以上链接无法点击，请复制 '+ SITE_ROOT_URL + '/active_account?key=' + token + '&name=' + name +'到浏览器地址栏中进入访问，该链接24小时有效。</p>'
+    '<p>若以上链接无法点击，请复制 '+ '<span>'+SITE_ROOT_URL + '/active_account?key=' + token + '&name=' + name +'</span>'+'到浏览器地址栏中进入访问，该链接24小时有效。</p>'
     '<p>若您没有在' + config.name + '社区填写过注册信息，说明有人滥用了您的电子邮箱，请删除此邮件，我们对给您造成的打扰感到抱歉。</p>' +
-    '<p>' + config.name + '社区 谨上。</p>';
+    '<p>' + config.name + ' 谨上。</p>';
 
   exports.sendMail({
     from: from,
@@ -69,10 +69,9 @@ exports.sendActiveMail = function (who, token, name) {
 exports.sendResetPassMail = function (who, token, name) {
   var from = util.format('%s <%s>', config.name, config.mail_opts.auth.user);
   var to = who;
-  var subject = config.name + '社区密码重置';
+  var subject = config.name + 'Colorful密码重置';
   var html = '<p>您好：' + name + '</p>' +
-    '<p>我们收到您在' + config.name + '社区重置密码的请求，请在24小时内单击下面的链接来重置密码：</p>' +
-    '<a href="' + SITE_ROOT_URL + '/reset_pass?key=' + token + '&name=' + name + '">重置密码链接</a>' +
+    '<p>管理员已将您的密码重置，重置密码为111111,请重新登录' +
     '<p>若您没有在' + config.name + '社区填写过注册信息，说明有人滥用了您的电子邮箱，请删除此邮件，我们对给您造成的打扰感到抱歉。</p>' +
     '<p>' + config.name + '社区 谨上。</p>';
 

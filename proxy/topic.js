@@ -1,6 +1,7 @@
 var EventProxy = require('eventproxy');//解决深度回调问题，并行处理
 var models  = require('../models/index');
 var Topic      = models.Topic;
+var Download      = models.Download;
 var User       = require('./user');
 var Reply      = require('./reply');
 var tools      = require('../common/tools');
@@ -48,6 +49,11 @@ exports.getTopicById = function (id, callback) {
         .populate('author','name avatar')
         .exec(callback);
 };
+//根据id一张图片
+exports.getById = function (id, callback) {
+  Topic.findOne({_id: id})
+        .exec(callback);
+};
 
 /**
  * 获取关键词能搜索到的图片数量
@@ -60,6 +66,26 @@ exports.getTopicById = function (id, callback) {
 exports.getCountByQuery = function (query, callback) {
   Topic.count(query, callback);
 };
+
+
+
+//所有图片数量,分为已审核，未审核
+exports.getAllCount = function ( callback) {
+  Topic.aggregate([
+
+　　{$group:{_id:"$checked",count:{$sum:1}}}
+
+  ],callback);
+};
+
+//所有图片下载量
+exports.getDownloadCount = function ( callback) {
+  Topic.aggregate([
+
+　　{$group:{_id:"",total:{$sum:"$download_count"}}}
+
+  ],callback);
+};
 /**
  * 获取所有图片列表,根据sort排序
  * Callback:
@@ -68,11 +94,22 @@ exports.getCountByQuery = function (query, callback) {
  * @param {Function} callback 回调函数
  .populate({path:'User',select:'avatar name'})
  */
- exports.getAll = function (sort, callback) {
-  Topic.find()
-        .populate('author','name avatar')
-        .sort({sort:-1})
+ exports.getAll = function (query, sort, page, callback) {
+  if(page.pageNum === 1){
+    Topic.find(query)
+        .populate('author', 'avatar name')
+        .limit(page.pageSize)
+        .sort(sort)
         .exec(callback);
+  }
+  else{    
+    Topic.find(query)
+          .populate('author', 'avatar name')
+          .skip((page.pageNum-1) * page.pageSize)
+          .limit(page.pageSize)
+          .sort(sort)
+          .exec(callback);
+  }
       
  }
 
@@ -84,16 +121,35 @@ exports.getCountByQuery = function (query, callback) {
  * @param {String} key 搜索关键词
  * @param {Function} callback 回调函数
  */
- exports.getTopicsByQuery = function (key, callback) {
-  Topic.find({
-        $or: [
-          {'title': {'$regex': key, $options: '$i'}},//$i忽略大小写
-          {'tag': {'$regex': key, $options: '$i'}},
-          {'theme_color': {'$regex': key, $options: '$i'}},
-          ]
-      })
-      .populate({path:'author',select:'avatar name download_count', options: {sort: { download_count: -1 }}})
-      .exec(callback);
+ exports.getTopicsByQuery = function (key, page, callback) {
+  if(page.pageNum === 1){
+    Topic.find({
+          $or: [
+            {'title': key},//$i忽略大小写
+            {'tag': {'$in': [key]}},
+            {'theme_color': {'$in': [key]}},
+            ],
+          'deleted':false,
+        })
+        .populate({path:'author',select:'avatar name download_count', options: {sort: { download_count: -1 }}})
+        
+        .limit(page.pageSize)
+        .exec(callback);
+  }
+  else{
+    Topic.find({
+          $or: [
+            {'title': key},//$i忽略大小写
+            {'tag': {'$in': [key]}},
+            {'theme_color': {'$in': [key]}},
+            ]
+        })
+        .populate({path:'author',select:'avatar name download_count', options: {sort: { download_count: -1 }}})
+        .skip((page.pageNum-1) * page.pageSize)
+        .sort({"download_count":-1})
+        .limit(page.pageSize)
+        .exec(callback);
+  }
       
  }
 /**
@@ -161,77 +217,12 @@ exports.getLimit5w = function (callback) {
  * @param {Function} callback 回调函数
  */
  exports.getFullTopic = function (id, callback) {
+  if (!id) {
+    return callback();
+  }
   Topic.findOne({_id: id}, callback);
 }
-/*exports.getFullTopic = function (id, callback) {
-  console.log("id-----",id);
-  var proxy = new EventProxy();
-  var events = ['Topic', 'author', 'replies'];
-  proxy
-    .all('Topic', 'author', 'replies', function (Topic, author, replies) {
-      console.log("topic----",Topic);
-      console.log("author----",author);
-      callback(null, '', Topic, author, replies);
-    })
-    .fail(callback);
 
-  Topic.findOne({_id: id, deleted: false}, proxy.done(function (Topic) {
-    if (!Topic) {
-      proxy.unbind();
-      return callback(null, '此图片不存在或已被删除。');
-    }
-    
-    at.linkUsers(Topic.content, proxy.done('Topic', function (str) {
-      Topic.linkedContent = str;
-      return Topic;
-    }));
-
-    User.getUserById(Topic.author_id, proxy.done(function (author) {
-      if (!author) {
-        proxy.unbind();
-        return callback(null, '图片的作者丢了。');
-      }
-      
-      proxy.emit('author', author);
-    }));
-
-    Reply.getRepliesByTopicId(Topic._id, proxy.done('replies'));
-  }));
-};exports.getFullTopic = function (id, callback) {
-  console.log("id-----",id);
-  var proxy = new EventProxy();
-  var events = ['Topic', 'author', 'replies'];
-  proxy
-    .all('Topic', 'author', 'replies', function (Topic, author, replies) {
-      console.log("topic----",Topic);
-      console.log("author----",author);
-      callback(null, '', Topic, author, replies);
-    })
-    .fail(callback);
-
-  Topic.findOne({_id: id, deleted: false}, proxy.done(function (Topic) {
-    if (!Topic) {
-      proxy.unbind();
-      return callback(null, '此图片不存在或已被删除。');
-    }
-    
-    at.linkUsers(Topic.content, proxy.done('Topic', function (str) {
-      Topic.linkedContent = str;
-      return Topic;
-    }));
-
-    User.getUserById(Topic.author_id, proxy.done(function (author) {
-      if (!author) {
-        proxy.unbind();
-        return callback(null, '图片的作者丢了。');
-      }
-      
-      proxy.emit('author', author);
-    }));
-
-    Reply.getRepliesByTopicId(Topic._id, proxy.done('replies'));
-  }));
-};*/
 
 /**
  * 更新图片主题的最后回复信息
@@ -257,8 +248,9 @@ exports.updateLastReply = function (TopicId, replyId, callback) {
  * @param {Function} callback 回调函数
  */
 exports.getTopic = function (id, callback) {
-  console.log("id---",id);
-  Topic.findOne({_id: id}, callback);
+  Topic.findOne({_id: id})
+        .populate('author','name avatar')
+        .exec(callback);
 };
 
 /**
@@ -303,7 +295,7 @@ exports.reduceCount = function (id, callback) {
   });
 };
 
-exports.newAndSave = function (title, path, tag, content, address , params ,author , authorId, callback) {
+exports.newAndSave = function (title, path, tag, content, address , params ,author , authorId, checked, callback) {
   var topic       = new Topic();
   topic.title     = title;
   topic.path     = path;
@@ -314,6 +306,9 @@ exports.newAndSave = function (title, path, tag, content, address , params ,auth
   //Topic.tab       = tab;
   topic.author = author;
   topic.author_id = authorId;
+  topic.checked = checked;
+  topic.check = checked;
+  topic.status = checked;
 
   topic.save(callback);
 };

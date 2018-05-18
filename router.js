@@ -16,6 +16,8 @@ var upload = require('./controllers/upload');
 var auth = require('./middlewares/auth');
 var topic = require('./controllers/topic');
 var user = require('./controllers/user');
+var reply = require('./controllers/reply');
+var message = require('./controllers/message');
 /*var site = require('./controllers/site');
 var user = require('./controllers/user');
 var message = require('./controllers/message');
@@ -141,10 +143,11 @@ router.get('/active_account', sign.activeAccount);  //帐号激活
 //router.post('/imgUpload', uploads.single('image'), upload.imgUpload);  //文件(图片)上传
 router.post('/imgUpload', auth.userRequired, upload.uploads.array('image', 6), upload.imgUpload);  //文件(图片)上传,多文件
 router.post('/createPainting', auth.userRequired, paintings.create);  //创建画集
+router.get('/de_Painting', auth.userRequired, paintings.delete);  //删除画集
 router.get('/paintingInfo', paintings.get);  //画集基本信息（得到）
 router.post('/updatePaintingInfo', auth.userRequired, paintings.update);  //画集基本信息（修改）
 router.get('/getAllPaintings', paintings.getAll);  //获取用户下所有画集
-router.get('/getPictureUnderPainting', auth.userRequired, paintings.getById);  //获取某个画集所有图片
+router.get('/getPictureUnderPainting', paintings.getById);  //获取某个画集所有图片
 
 //画操作
 router.post('/uploadAndAddTopaintings', auth.userRequired, topic.put);  //上传图片之后保存到数据库并对图片归类画集
@@ -156,6 +159,7 @@ router.get('/getPictureCollect', topic.getCollect);  //得到用户下所有收�
 router.get('/getFocus', user.getFocus);  //得到用户下关注的人
 router.get('/deletePicture', auth.userRequired, topic.delete);  //删除一张图片
 router.post('/updatePicture', auth.userRequired, topic.update);  //更新一张图片信息
+router.post('/updatePictureToPaintings', auth.userRequired, topic.updatePaintings);  //更新一张图片信息---只修改所属画集
 
 
 //首页及发现最新
@@ -172,6 +176,27 @@ router.get('/de_follow', auth.userRequired, user.delete_follow);  //取消关注
 router.get('/userInfo', user.index); // 获取用户基本信息
 router.post('/setting', auth.userRequired, user.setting); // 个人信息设置
 router.post('/pass_setting', auth.userRequired, user.pass_setting); // 修改密码
+router.get('/download', topic.download); // 下载图片
+router.post('/comment', auth.userRequired, reply.comment); // 评论
+router.get('/de_comment', auth.userRequired, reply.de_comment); // 删除评论
+router.get('/message', auth.userRequired, message.index); // 得到所有已读，未读消息
+router.get('/message_hasread', auth.userRequired, message.read); // 将消息设置为已读
+router.post('/allmessage_hasread', auth.userRequired, message.allread); // 将所有消息设置为已读
+
+
+//后台
+router.get('/count', auth.userRequired, user.count);  //得到图片统计数，用户数，下载量
+router.post('/downloadCount', auth.userRequired, user.downloadCount);  //得到图片统计数，用户数，下载量
+router.get('/pageView', user.pv);  //浏览量
+router.post('/users', user.getusers);  //所有用户
+router.post('/addUser', user.add);  //新增用户
+router.get('/deleteUser', user.deleteUser);  //删除用户
+router.get('/resetPass', user.resetPass);  //重置密码
+router.post('/updateUser', user.updateUserInfo);  //更新用户
+router.post('/getPictureNochecked', topic.getPictureNochecked);  //得到未审核的所有图片
+router.post('/checked', topic.checked);  //审核
+router.post('/doTag', topic.doTag);  //打标签
+
 
 
 module.exports = router;

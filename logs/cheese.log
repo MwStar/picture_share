@@ -340,3 +340,459 @@
   to: '2397560398@qq.com',
   subject: 'Colorful社区帐号激活',
   html: '<p>您好：ddddd</p><p>我们收到您在Colorful社区的注册信息，请点击下面的链接来激活帐户：</p><a href  = "http://localhost/active_account?key=212eb64ef4adff9db847540e279d6b62&name=ddddd">激活链接</a><p>若您没有在Colorful社区填写过注册信息，说明有人滥用了您的电子邮箱，请删除此邮件，我们对给您造成的打扰感到抱歉。</p><p>Colorful社区 谨上。</p>' }
+[2018-04-30T20:41:17.365] [ERROR] cheese - send mail error { Error: Can't send mail - all recipients were rejected: 550 Mailbox not found or access denied
+    at SMTPConnection._formatError (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:528:15)
+    at SMTPConnection._actionRCPT (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1310:24)
+    at SMTPConnection.<anonymous> (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1265:26)
+    at SMTPConnection._processResponse (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:669:16)
+    at SMTPConnection._onData (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:493:10)
+    at emitOne (events.js:116:13)
+    at TLSSocket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at TLSSocket.Readable.push (_stream_readable.js:208:10)
+    at TLSWrap.onread (net.js:594:20)
+  code: 'EENVELOPE',
+  response: '550 Mailbox not found or access denied',
+  responseCode: 550,
+  command: 'RCPT TO',
+  rejected: [ '2242016459@qq.com' ],
+  rejectedErrors: 
+   [ { Error: Recipient command failed: 550 Mailbox not found or access denied
+    at SMTPConnection._formatError (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:528:15)
+    at SMTPConnection._actionRCPT (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1296:20)
+    at SMTPConnection.<anonymous> (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1265:26)
+    at SMTPConnection._processResponse (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:669:16)
+    at SMTPConnection._onData (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:493:10)
+    at emitOne (events.js:116:13)
+    at TLSSocket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at TLSSocket.Readable.push (_stream_readable.js:208:10)
+    at TLSWrap.onread (net.js:594:20)
+       code: 'EENVELOPE',
+       response: '550 Mailbox not found or access denied',
+       responseCode: 550,
+       command: 'RCPT TO',
+       recipient: '2242016459@qq.com' } ] } { from: 'Colorful <2397560398@qq.com>',
+  to: '2242016459@qq.com',
+  subject: 'Colorful社区帐号激活',
+  html: '<p>您好：user03</p><p>我们收到您在Colorful的注册信息，请点击下面的链接来激活帐户：</p><a href  = "http://localhost:3000/active_account?key=503fa8390a70c6cafc9530f3e2c4e261&name=user03">激活链接</a><p>若以上链接无法点击，请复制 <span>http://localhost:3000/active_account?key=503fa8390a70c6cafc9530f3e2c4e261&name=user03</span>到浏览器地址栏中进入访问，该链接24小时有效。</p>' }
+[2018-04-30T20:41:18.183] [ERROR] cheese - send mail error { Error: Can't send mail - all recipients were rejected: 550 Mailbox not found or access denied
+    at SMTPConnection._formatError (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:528:15)
+    at SMTPConnection._actionRCPT (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1310:24)
+    at SMTPConnection.<anonymous> (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1265:26)
+    at SMTPConnection._processResponse (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:669:16)
+    at SMTPConnection._onData (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:493:10)
+    at emitOne (events.js:116:13)
+    at TLSSocket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at TLSSocket.Readable.push (_stream_readable.js:208:10)
+    at TLSWrap.onread (net.js:594:20)
+  code: 'EENVELOPE',
+  response: '550 Mailbox not found or access denied',
+  responseCode: 550,
+  command: 'RCPT TO',
+  rejected: [ '2242016459@qq.com' ],
+  rejectedErrors: 
+   [ { Error: Recipient command failed: 550 Mailbox not found or access denied
+    at SMTPConnection._formatError (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:528:15)
+    at SMTPConnection._actionRCPT (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1296:20)
+    at SMTPConnection.<anonymous> (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1265:26)
+    at SMTPConnection._processResponse (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:669:16)
+    at SMTPConnection._onData (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:493:10)
+    at emitOne (events.js:116:13)
+    at TLSSocket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at TLSSocket.Readable.push (_stream_readable.js:208:10)
+    at TLSWrap.onread (net.js:594:20)
+       code: 'EENVELOPE',
+       response: '550 Mailbox not found or access denied',
+       responseCode: 550,
+       command: 'RCPT TO',
+       recipient: '2242016459@qq.com' } ] } { from: 'Colorful <2397560398@qq.com>',
+  to: '2242016459@qq.com',
+  subject: 'Colorful社区帐号激活',
+  html: '<p>您好：user03</p><p>我们收到您在Colorful的注册信息，请点击下面的链接来激活帐户：</p><a href  = "http://localhost:3000/active_account?key=503fa8390a70c6cafc9530f3e2c4e261&name=user03">激活链接</a><p>若以上链接无法点击，请复制 <span>http://localhost:3000/active_account?key=503fa8390a70c6cafc9530f3e2c4e261&name=user03</span>到浏览器地址栏中进入访问，该链接24小时有效。</p>' }
+[2018-04-30T20:41:18.733] [ERROR] cheese - send mail error { Error: Can't send mail - all recipients were rejected: 550 Mailbox not found or access denied
+    at SMTPConnection._formatError (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:528:15)
+    at SMTPConnection._actionRCPT (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1310:24)
+    at SMTPConnection.<anonymous> (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1265:26)
+    at SMTPConnection._processResponse (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:669:16)
+    at SMTPConnection._onData (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:493:10)
+    at emitOne (events.js:116:13)
+    at TLSSocket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at TLSSocket.Readable.push (_stream_readable.js:208:10)
+    at TLSWrap.onread (net.js:594:20)
+  code: 'EENVELOPE',
+  response: '550 Mailbox not found or access denied',
+  responseCode: 550,
+  command: 'RCPT TO',
+  rejected: [ '2242016459@qq.com' ],
+  rejectedErrors: 
+   [ { Error: Recipient command failed: 550 Mailbox not found or access denied
+    at SMTPConnection._formatError (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:528:15)
+    at SMTPConnection._actionRCPT (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1296:20)
+    at SMTPConnection.<anonymous> (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1265:26)
+    at SMTPConnection._processResponse (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:669:16)
+    at SMTPConnection._onData (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:493:10)
+    at emitOne (events.js:116:13)
+    at TLSSocket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at TLSSocket.Readable.push (_stream_readable.js:208:10)
+    at TLSWrap.onread (net.js:594:20)
+       code: 'EENVELOPE',
+       response: '550 Mailbox not found or access denied',
+       responseCode: 550,
+       command: 'RCPT TO',
+       recipient: '2242016459@qq.com' } ] } { from: 'Colorful <2397560398@qq.com>',
+  to: '2242016459@qq.com',
+  subject: 'Colorful社区帐号激活',
+  html: '<p>您好：user03</p><p>我们收到您在Colorful的注册信息，请点击下面的链接来激活帐户：</p><a href  = "http://localhost:3000/active_account?key=503fa8390a70c6cafc9530f3e2c4e261&name=user03">激活链接</a><p>若以上链接无法点击，请复制 <span>http://localhost:3000/active_account?key=503fa8390a70c6cafc9530f3e2c4e261&name=user03</span>到浏览器地址栏中进入访问，该链接24小时有效。</p>' }
+[2018-04-30T20:41:19.532] [ERROR] cheese - send mail error { Error: Can't send mail - all recipients were rejected: 550 Mailbox not found or access denied
+    at SMTPConnection._formatError (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:528:15)
+    at SMTPConnection._actionRCPT (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1310:24)
+    at SMTPConnection.<anonymous> (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1265:26)
+    at SMTPConnection._processResponse (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:669:16)
+    at SMTPConnection._onData (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:493:10)
+    at emitOne (events.js:116:13)
+    at TLSSocket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at TLSSocket.Readable.push (_stream_readable.js:208:10)
+    at TLSWrap.onread (net.js:594:20)
+  code: 'EENVELOPE',
+  response: '550 Mailbox not found or access denied',
+  responseCode: 550,
+  command: 'RCPT TO',
+  rejected: [ '2242016459@qq.com' ],
+  rejectedErrors: 
+   [ { Error: Recipient command failed: 550 Mailbox not found or access denied
+    at SMTPConnection._formatError (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:528:15)
+    at SMTPConnection._actionRCPT (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1296:20)
+    at SMTPConnection.<anonymous> (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1265:26)
+    at SMTPConnection._processResponse (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:669:16)
+    at SMTPConnection._onData (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:493:10)
+    at emitOne (events.js:116:13)
+    at TLSSocket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at TLSSocket.Readable.push (_stream_readable.js:208:10)
+    at TLSWrap.onread (net.js:594:20)
+       code: 'EENVELOPE',
+       response: '550 Mailbox not found or access denied',
+       responseCode: 550,
+       command: 'RCPT TO',
+       recipient: '2242016459@qq.com' } ] } { from: 'Colorful <2397560398@qq.com>',
+  to: '2242016459@qq.com',
+  subject: 'Colorful社区帐号激活',
+  html: '<p>您好：user03</p><p>我们收到您在Colorful的注册信息，请点击下面的链接来激活帐户：</p><a href  = "http://localhost:3000/active_account?key=503fa8390a70c6cafc9530f3e2c4e261&name=user03">激活链接</a><p>若以上链接无法点击，请复制 <span>http://localhost:3000/active_account?key=503fa8390a70c6cafc9530f3e2c4e261&name=user03</span>到浏览器地址栏中进入访问，该链接24小时有效。</p>' }
+[2018-04-30T20:41:20.239] [ERROR] cheese - send mail error { Error: Can't send mail - all recipients were rejected: 550 Mailbox not found or access denied
+    at SMTPConnection._formatError (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:528:15)
+    at SMTPConnection._actionRCPT (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1310:24)
+    at SMTPConnection.<anonymous> (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1265:26)
+    at SMTPConnection._processResponse (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:669:16)
+    at SMTPConnection._onData (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:493:10)
+    at emitOne (events.js:116:13)
+    at TLSSocket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at TLSSocket.Readable.push (_stream_readable.js:208:10)
+    at TLSWrap.onread (net.js:594:20)
+  code: 'EENVELOPE',
+  response: '550 Mailbox not found or access denied',
+  responseCode: 550,
+  command: 'RCPT TO',
+  rejected: [ '2242016459@qq.com' ],
+  rejectedErrors: 
+   [ { Error: Recipient command failed: 550 Mailbox not found or access denied
+    at SMTPConnection._formatError (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:528:15)
+    at SMTPConnection._actionRCPT (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1296:20)
+    at SMTPConnection.<anonymous> (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1265:26)
+    at SMTPConnection._processResponse (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:669:16)
+    at SMTPConnection._onData (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:493:10)
+    at emitOne (events.js:116:13)
+    at TLSSocket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at TLSSocket.Readable.push (_stream_readable.js:208:10)
+    at TLSWrap.onread (net.js:594:20)
+       code: 'EENVELOPE',
+       response: '550 Mailbox not found or access denied',
+       responseCode: 550,
+       command: 'RCPT TO',
+       recipient: '2242016459@qq.com' } ] } { from: 'Colorful <2397560398@qq.com>',
+  to: '2242016459@qq.com',
+  subject: 'Colorful社区帐号激活',
+  html: '<p>您好：user03</p><p>我们收到您在Colorful的注册信息，请点击下面的链接来激活帐户：</p><a href  = "http://localhost:3000/active_account?key=503fa8390a70c6cafc9530f3e2c4e261&name=user03">激活链接</a><p>若以上链接无法点击，请复制 <span>http://localhost:3000/active_account?key=503fa8390a70c6cafc9530f3e2c4e261&name=user03</span>到浏览器地址栏中进入访问，该链接24小时有效。</p>' }
+[2018-04-30T20:41:20.240] [ERROR] cheese - send mail finally error { Error: Can't send mail - all recipients were rejected: 550 Mailbox not found or access denied
+    at SMTPConnection._formatError (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:528:15)
+    at SMTPConnection._actionRCPT (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1310:24)
+    at SMTPConnection.<anonymous> (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1265:26)
+    at SMTPConnection._processResponse (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:669:16)
+    at SMTPConnection._onData (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:493:10)
+    at emitOne (events.js:116:13)
+    at TLSSocket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at TLSSocket.Readable.push (_stream_readable.js:208:10)
+    at TLSWrap.onread (net.js:594:20)
+  code: 'EENVELOPE',
+  response: '550 Mailbox not found or access denied',
+  responseCode: 550,
+  command: 'RCPT TO',
+  rejected: [ '2242016459@qq.com' ],
+  rejectedErrors: 
+   [ { Error: Recipient command failed: 550 Mailbox not found or access denied
+    at SMTPConnection._formatError (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:528:15)
+    at SMTPConnection._actionRCPT (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1296:20)
+    at SMTPConnection.<anonymous> (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1265:26)
+    at SMTPConnection._processResponse (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:669:16)
+    at SMTPConnection._onData (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:493:10)
+    at emitOne (events.js:116:13)
+    at TLSSocket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at TLSSocket.Readable.push (_stream_readable.js:208:10)
+    at TLSWrap.onread (net.js:594:20)
+       code: 'EENVELOPE',
+       response: '550 Mailbox not found or access denied',
+       responseCode: 550,
+       command: 'RCPT TO',
+       recipient: '2242016459@qq.com' } ] } { from: 'Colorful <2397560398@qq.com>',
+  to: '2242016459@qq.com',
+  subject: 'Colorful社区帐号激活',
+  html: '<p>您好：user03</p><p>我们收到您在Colorful的注册信息，请点击下面的链接来激活帐户：</p><a href  = "http://localhost:3000/active_account?key=503fa8390a70c6cafc9530f3e2c4e261&name=user03">激活链接</a><p>若以上链接无法点击，请复制 <span>http://localhost:3000/active_account?key=503fa8390a70c6cafc9530f3e2c4e261&name=user03</span>到浏览器地址栏中进入访问，该链接24小时有效。</p>' }
+[2018-05-19T01:34:04.433] [ERROR] cheese - send mail error { Error: Can't send mail - all recipients were rejected: 550 Mailbox not found or access denied
+    at SMTPConnection._formatError (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:528:15)
+    at SMTPConnection._actionRCPT (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1310:24)
+    at SMTPConnection.<anonymous> (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1265:26)
+    at SMTPConnection._processResponse (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:669:16)
+    at SMTPConnection._onData (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:493:10)
+    at emitOne (events.js:116:13)
+    at TLSSocket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at TLSSocket.Readable.push (_stream_readable.js:208:10)
+    at TLSWrap.onread (net.js:594:20)
+  code: 'EENVELOPE',
+  response: '550 Mailbox not found or access denied',
+  responseCode: 550,
+  command: 'RCPT TO',
+  rejected: [ '1714826300@qq.com' ],
+  rejectedErrors: 
+   [ { Error: Recipient command failed: 550 Mailbox not found or access denied
+    at SMTPConnection._formatError (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:528:15)
+    at SMTPConnection._actionRCPT (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1296:20)
+    at SMTPConnection.<anonymous> (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1265:26)
+    at SMTPConnection._processResponse (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:669:16)
+    at SMTPConnection._onData (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:493:10)
+    at emitOne (events.js:116:13)
+    at TLSSocket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at TLSSocket.Readable.push (_stream_readable.js:208:10)
+    at TLSWrap.onread (net.js:594:20)
+       code: 'EENVELOPE',
+       response: '550 Mailbox not found or access denied',
+       responseCode: 550,
+       command: 'RCPT TO',
+       recipient: '1714826300@qq.com' } ] } { from: 'Colorful <2397560398@qq.com>',
+  to: '1714826300@qq.com',
+  subject: 'Colorful社区帐号激活',
+  html: '<p>您好：user03</p><p>我们收到您在Colorful的注册信息，请点击下面的链接来激活帐户：</p><a href  = "http://localhost:3000/active_account?key=9c1f485b0dbf1f356dab4abe2dc2ed1f&name=user03">激活链接</a><p>若以上链接无法点击，请复制 <span>http://localhost:3000/active_account?key=9c1f485b0dbf1f356dab4abe2dc2ed1f&name=user03</span>到浏览器地址栏中进入访问，该链接24小时有效。</p>' }
+[2018-05-19T01:34:05.058] [ERROR] cheese - send mail error { Error: Can't send mail - all recipients were rejected: 550 Mailbox not found or access denied
+    at SMTPConnection._formatError (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:528:15)
+    at SMTPConnection._actionRCPT (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1310:24)
+    at SMTPConnection.<anonymous> (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1265:26)
+    at SMTPConnection._processResponse (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:669:16)
+    at SMTPConnection._onData (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:493:10)
+    at emitOne (events.js:116:13)
+    at TLSSocket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at TLSSocket.Readable.push (_stream_readable.js:208:10)
+    at TLSWrap.onread (net.js:594:20)
+  code: 'EENVELOPE',
+  response: '550 Mailbox not found or access denied',
+  responseCode: 550,
+  command: 'RCPT TO',
+  rejected: [ '1714826300@qq.com' ],
+  rejectedErrors: 
+   [ { Error: Recipient command failed: 550 Mailbox not found or access denied
+    at SMTPConnection._formatError (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:528:15)
+    at SMTPConnection._actionRCPT (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1296:20)
+    at SMTPConnection.<anonymous> (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1265:26)
+    at SMTPConnection._processResponse (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:669:16)
+    at SMTPConnection._onData (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:493:10)
+    at emitOne (events.js:116:13)
+    at TLSSocket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at TLSSocket.Readable.push (_stream_readable.js:208:10)
+    at TLSWrap.onread (net.js:594:20)
+       code: 'EENVELOPE',
+       response: '550 Mailbox not found or access denied',
+       responseCode: 550,
+       command: 'RCPT TO',
+       recipient: '1714826300@qq.com' } ] } { from: 'Colorful <2397560398@qq.com>',
+  to: '1714826300@qq.com',
+  subject: 'Colorful社区帐号激活',
+  html: '<p>您好：user03</p><p>我们收到您在Colorful的注册信息，请点击下面的链接来激活帐户：</p><a href  = "http://localhost:3000/active_account?key=9c1f485b0dbf1f356dab4abe2dc2ed1f&name=user03">激活链接</a><p>若以上链接无法点击，请复制 <span>http://localhost:3000/active_account?key=9c1f485b0dbf1f356dab4abe2dc2ed1f&name=user03</span>到浏览器地址栏中进入访问，该链接24小时有效。</p>' }
+[2018-05-19T01:34:05.567] [ERROR] cheese - send mail error { Error: Can't send mail - all recipients were rejected: 550 Mailbox not found or access denied
+    at SMTPConnection._formatError (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:528:15)
+    at SMTPConnection._actionRCPT (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1310:24)
+    at SMTPConnection.<anonymous> (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1265:26)
+    at SMTPConnection._processResponse (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:669:16)
+    at SMTPConnection._onData (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:493:10)
+    at emitOne (events.js:116:13)
+    at TLSSocket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at TLSSocket.Readable.push (_stream_readable.js:208:10)
+    at TLSWrap.onread (net.js:594:20)
+  code: 'EENVELOPE',
+  response: '550 Mailbox not found or access denied',
+  responseCode: 550,
+  command: 'RCPT TO',
+  rejected: [ '1714826300@qq.com' ],
+  rejectedErrors: 
+   [ { Error: Recipient command failed: 550 Mailbox not found or access denied
+    at SMTPConnection._formatError (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:528:15)
+    at SMTPConnection._actionRCPT (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1296:20)
+    at SMTPConnection.<anonymous> (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1265:26)
+    at SMTPConnection._processResponse (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:669:16)
+    at SMTPConnection._onData (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:493:10)
+    at emitOne (events.js:116:13)
+    at TLSSocket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at TLSSocket.Readable.push (_stream_readable.js:208:10)
+    at TLSWrap.onread (net.js:594:20)
+       code: 'EENVELOPE',
+       response: '550 Mailbox not found or access denied',
+       responseCode: 550,
+       command: 'RCPT TO',
+       recipient: '1714826300@qq.com' } ] } { from: 'Colorful <2397560398@qq.com>',
+  to: '1714826300@qq.com',
+  subject: 'Colorful社区帐号激活',
+  html: '<p>您好：user03</p><p>我们收到您在Colorful的注册信息，请点击下面的链接来激活帐户：</p><a href  = "http://localhost:3000/active_account?key=9c1f485b0dbf1f356dab4abe2dc2ed1f&name=user03">激活链接</a><p>若以上链接无法点击，请复制 <span>http://localhost:3000/active_account?key=9c1f485b0dbf1f356dab4abe2dc2ed1f&name=user03</span>到浏览器地址栏中进入访问，该链接24小时有效。</p>' }
+[2018-05-19T01:34:06.051] [ERROR] cheese - send mail error { Error: Can't send mail - all recipients were rejected: 550 Mailbox not found or access denied
+    at SMTPConnection._formatError (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:528:15)
+    at SMTPConnection._actionRCPT (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1310:24)
+    at SMTPConnection.<anonymous> (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1265:26)
+    at SMTPConnection._processResponse (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:669:16)
+    at SMTPConnection._onData (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:493:10)
+    at emitOne (events.js:116:13)
+    at TLSSocket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at TLSSocket.Readable.push (_stream_readable.js:208:10)
+    at TLSWrap.onread (net.js:594:20)
+  code: 'EENVELOPE',
+  response: '550 Mailbox not found or access denied',
+  responseCode: 550,
+  command: 'RCPT TO',
+  rejected: [ '1714826300@qq.com' ],
+  rejectedErrors: 
+   [ { Error: Recipient command failed: 550 Mailbox not found or access denied
+    at SMTPConnection._formatError (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:528:15)
+    at SMTPConnection._actionRCPT (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1296:20)
+    at SMTPConnection.<anonymous> (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1265:26)
+    at SMTPConnection._processResponse (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:669:16)
+    at SMTPConnection._onData (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:493:10)
+    at emitOne (events.js:116:13)
+    at TLSSocket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at TLSSocket.Readable.push (_stream_readable.js:208:10)
+    at TLSWrap.onread (net.js:594:20)
+       code: 'EENVELOPE',
+       response: '550 Mailbox not found or access denied',
+       responseCode: 550,
+       command: 'RCPT TO',
+       recipient: '1714826300@qq.com' } ] } { from: 'Colorful <2397560398@qq.com>',
+  to: '1714826300@qq.com',
+  subject: 'Colorful社区帐号激活',
+  html: '<p>您好：user03</p><p>我们收到您在Colorful的注册信息，请点击下面的链接来激活帐户：</p><a href  = "http://localhost:3000/active_account?key=9c1f485b0dbf1f356dab4abe2dc2ed1f&name=user03">激活链接</a><p>若以上链接无法点击，请复制 <span>http://localhost:3000/active_account?key=9c1f485b0dbf1f356dab4abe2dc2ed1f&name=user03</span>到浏览器地址栏中进入访问，该链接24小时有效。</p>' }
+[2018-05-19T01:34:06.581] [ERROR] cheese - send mail error { Error: Can't send mail - all recipients were rejected: 550 Mailbox not found or access denied
+    at SMTPConnection._formatError (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:528:15)
+    at SMTPConnection._actionRCPT (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1310:24)
+    at SMTPConnection.<anonymous> (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1265:26)
+    at SMTPConnection._processResponse (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:669:16)
+    at SMTPConnection._onData (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:493:10)
+    at emitOne (events.js:116:13)
+    at TLSSocket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at TLSSocket.Readable.push (_stream_readable.js:208:10)
+    at TLSWrap.onread (net.js:594:20)
+  code: 'EENVELOPE',
+  response: '550 Mailbox not found or access denied',
+  responseCode: 550,
+  command: 'RCPT TO',
+  rejected: [ '1714826300@qq.com' ],
+  rejectedErrors: 
+   [ { Error: Recipient command failed: 550 Mailbox not found or access denied
+    at SMTPConnection._formatError (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:528:15)
+    at SMTPConnection._actionRCPT (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1296:20)
+    at SMTPConnection.<anonymous> (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1265:26)
+    at SMTPConnection._processResponse (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:669:16)
+    at SMTPConnection._onData (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:493:10)
+    at emitOne (events.js:116:13)
+    at TLSSocket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at TLSSocket.Readable.push (_stream_readable.js:208:10)
+    at TLSWrap.onread (net.js:594:20)
+       code: 'EENVELOPE',
+       response: '550 Mailbox not found or access denied',
+       responseCode: 550,
+       command: 'RCPT TO',
+       recipient: '1714826300@qq.com' } ] } { from: 'Colorful <2397560398@qq.com>',
+  to: '1714826300@qq.com',
+  subject: 'Colorful社区帐号激活',
+  html: '<p>您好：user03</p><p>我们收到您在Colorful的注册信息，请点击下面的链接来激活帐户：</p><a href  = "http://localhost:3000/active_account?key=9c1f485b0dbf1f356dab4abe2dc2ed1f&name=user03">激活链接</a><p>若以上链接无法点击，请复制 <span>http://localhost:3000/active_account?key=9c1f485b0dbf1f356dab4abe2dc2ed1f&name=user03</span>到浏览器地址栏中进入访问，该链接24小时有效。</p>' }
+[2018-05-19T01:34:06.582] [ERROR] cheese - send mail finally error { Error: Can't send mail - all recipients were rejected: 550 Mailbox not found or access denied
+    at SMTPConnection._formatError (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:528:15)
+    at SMTPConnection._actionRCPT (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1310:24)
+    at SMTPConnection.<anonymous> (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1265:26)
+    at SMTPConnection._processResponse (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:669:16)
+    at SMTPConnection._onData (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:493:10)
+    at emitOne (events.js:116:13)
+    at TLSSocket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at TLSSocket.Readable.push (_stream_readable.js:208:10)
+    at TLSWrap.onread (net.js:594:20)
+  code: 'EENVELOPE',
+  response: '550 Mailbox not found or access denied',
+  responseCode: 550,
+  command: 'RCPT TO',
+  rejected: [ '1714826300@qq.com' ],
+  rejectedErrors: 
+   [ { Error: Recipient command failed: 550 Mailbox not found or access denied
+    at SMTPConnection._formatError (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:528:15)
+    at SMTPConnection._actionRCPT (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1296:20)
+    at SMTPConnection.<anonymous> (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:1265:26)
+    at SMTPConnection._processResponse (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:669:16)
+    at SMTPConnection._onData (M:\learn\graduationProject\color_h\picture_share\node_modules\_smtp-connection@2.12.0@smtp-connection\lib\smtp-connection.js:493:10)
+    at emitOne (events.js:116:13)
+    at TLSSocket.emit (events.js:211:7)
+    at addChunk (_stream_readable.js:263:12)
+    at readableAddChunk (_stream_readable.js:250:11)
+    at TLSSocket.Readable.push (_stream_readable.js:208:10)
+    at TLSWrap.onread (net.js:594:20)
+       code: 'EENVELOPE',
+       response: '550 Mailbox not found or access denied',
+       responseCode: 550,
+       command: 'RCPT TO',
+       recipient: '1714826300@qq.com' } ] } { from: 'Colorful <2397560398@qq.com>',
+  to: '1714826300@qq.com',
+  subject: 'Colorful社区帐号激活',
+  html: '<p>您好：user03</p><p>我们收到您在Colorful的注册信息，请点击下面的链接来激活帐户：</p><a href  = "http://localhost:3000/active_account?key=9c1f485b0dbf1f356dab4abe2dc2ed1f&name=user03">激活链接</a><p>若以上链接无法点击，请复制 <span>http://localhost:3000/active_account?key=9c1f485b0dbf1f356dab4abe2dc2ed1f&name=user03</span>到浏览器地址栏中进入访问，该链接24小时有效。</p>' }

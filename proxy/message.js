@@ -39,23 +39,32 @@ exports.getMessageById = function (id, callback) {
 };
 
 var getMessageRelations = exports.getMessageRelations = function (message, callback) {
-  if (message.type === 'reply' || message.type === 'reply2' || message.type === 'at') {
+  if (message.type === '1' || message.type === '2'|| message.type === '3') {
     var proxy = new EventProxy();
     proxy.fail(callback);
     proxy.assign('author', 'topic', 'reply', function (author, topic, reply) {
-      message.author = author;
-      message.topic = topic;
+      message.master = author;
+      message.img = topic;
       message.reply = reply;
-      if (!author || !topic) {
+      if (!author || !topic || !reply) {
         message.is_invalid = true;
       }
       return callback(null, message);
     }); // 接收异常
-    User.getUserById(message.author_id, proxy.done('author'));
-    Topic.getTopicById(message.topic_id, proxy.done('topic'));
-    Reply.getReplyById(message.reply_id, proxy.done('reply'));
-  } else {
-    return callback(null, {is_invalid: true});
+    if(message.type === '1' || message.type === '2'){
+      
+      User.getUserById(message.master_id, proxy.done('author'));
+      Topic.getFullTopic(message.img_id, proxy.done('topic'));
+      Reply.getReplyById(message.reply_id, proxy.done('reply'));
+    }
+    else{
+      User.getUserById(message.master_id, proxy.done('author'));
+      proxy.emit('topic', {});
+      proxy.emit('reply', {});
+    }
+  }
+    else{
+      return callback(null, {is_invalid: true});
   }
 };
 
@@ -68,8 +77,7 @@ var getMessageRelations = exports.getMessageRelations = function (message, callb
  * @param {Function} callback 回调函数
  */
 exports.getReadMessagesByUserId = function (userId, callback) {
-  Message.find({master_id: userId, has_read: true}, null,
-    {sort: '-create_at', limit: 20}, callback);
+  Message.find({author_id: userId, has_read: true},null,{sort:'-create_at'},callback);
 };
 
 /**
@@ -81,8 +89,7 @@ exports.getReadMessagesByUserId = function (userId, callback) {
  * @param {Function} callback 回调函数
  */
 exports.getUnreadMessageByUserId = function (userId, callback) {
-  Message.find({master_id: userId, has_read: false}, null,
-    {sort: '-create_at'}, callback);
+  Message.find({author_id: userId, has_read: false},null,{sort:'-create_at'},callback);
 };
 
 
@@ -96,10 +103,10 @@ exports.updateMessagesToRead = function (userId, messages, callback) {
   }
 
   var ids = messages.map(function (m) {
-    return m.id;
+    return m._id;
   });
 
-  var query = { master_id: userId, _id: { $in: ids } };
+  var query = { author_id: userId, _id: { $in: ids } };
   Message.update(query, { $set: { has_read: true } }, { multi: true }).exec(callback);
 };
 

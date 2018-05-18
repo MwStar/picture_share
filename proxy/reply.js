@@ -22,7 +22,7 @@ exports.getReply = function (id, callback) {
  * @param {String} id 回复ID
  * @param {Function} callback 回调函数
  */
-exports.getReplyById = function (id, callback) {
+/*exports.getReplyById = function (id, callback) {
   if (!id) {
     return callback(null, null);
   }
@@ -53,6 +53,21 @@ exports.getReplyById = function (id, callback) {
       });
     });
   });
+};*/
+
+/**
+ * 根据回复ID，获取回复
+ * Callback:
+ * - err, 数据库异常
+ * - reply, 回复内容
+ * @param {String} id 回复ID
+ * @param {Function} callback 回调函数
+ */
+exports.getReplyById = function (id, callback) {
+  if (!id) {
+    return callback(null, null);
+  }
+  Reply.findOne({_id: id}, callback);
 };
 
 /**
@@ -63,42 +78,13 @@ exports.getReplyById = function (id, callback) {
  * @param {String} id 主题ID
  * @param {Function} callback 回调函数
  */
-exports.getRepliesByTopicId = function (id, cb) {
-  Reply.find({img_id: id, deleted: false}, '', {sort: 'create_at'}, function (err, replies) {
-    if (err) {
-      return cb(err);
-    }
-    if (replies.length === 0) {
-      return cb(null, []);
-    }
+exports.getRepliesByTopicId = function (id, callback) {
 
-    var proxy = new EventProxy();
-    proxy.after('reply_find', replies.length, function () {
-      cb(null, replies);
-    });
-    for (var j = 0; j < replies.length; j++) {
-      (function (i) {//匿名函数，，(function(i){}(j))----function(i){}是匿名函数，(j)是传入的参数
-        var author_id = replies[i].author_id;
-        User.getUserById(author_id, function (err, author) {//根据author_id找到这条评论的作者
-          if (err) {
-            return cb(err);
-          }
-          replies[i].author_avatar = author.avatar;
-          replies[i].author_name = author.name;
-          if (replies[i].content_is_html) {
-            return proxy.emit('reply_find');
-          }
-          /*at.linkUsers(replies[i].content, function (err, str) {
-            if (err) {
-              return cb(err);
-            }
-            replies[i].content = str;
-            proxy.emit('reply_find');
-          });*/
-        });
-      })(j);
-    }
-  });
+    Reply.find({img_id: id, deleted: false})
+        .populate('author_id', 'avatar name')
+        .populate('beReviewed_id', 'avatar name')
+        .sort({"create_at":1})
+        .exec(callback);
 };
 
 /**
@@ -109,19 +95,14 @@ exports.getRepliesByTopicId = function (id, cb) {
  * @param {String} [replyId] 回复ID，当二级回复时设定该值
  * @param {Function} callback 回调函数
  */
-exports.newAndSave = function (content, imgId, authorId, replyId, callback) {
-  if (typeof replyId === 'function') {
-    callback = replyId;
-    replyId  = null;
-  }
+exports.newAndSave = function (content, imgId, authorId, beReviewed_id, level, callback) {
+  
   var reply       = new Reply();
   reply.content   = content;
   reply.img_id  = imgId;
   reply.author_id = authorId;
-
-  if (replyId) {
-    reply.reply_id = replyId;
-  }
+  reply.beReviewed_id = beReviewed_id;
+  reply.level = level;
   reply.save(function (err) {
     callback(err, reply);
   });

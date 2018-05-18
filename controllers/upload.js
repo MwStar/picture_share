@@ -24,7 +24,6 @@ exports.uploads = multer({ storage: storage , limits: limits});
 
 exports.imgUpload = function (req, res, next) {
 	var files = req.files;
-    console.log(files);
     if (!files) {
         res.send({status:1,message:"上传失败"});
     } else {

@@ -110,8 +110,6 @@ exports.authUser = function (req, res, next) {
 };
 
 exports.gen_token = function(id) {//加密生成token
-  console.log("id----",id);
-  console.log("key----",config.jwtTokenSecret);
   var expires = moment().add(7,'days').valueOf();
   var token = jwt.encode({//加密的对象
     iss: id,

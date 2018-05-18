@@ -142,17 +142,37 @@ exports.getPaintingsByUserId = function (id, callback) {
 
 
 /**
+ * 获取画集列表数量
+ * Callback:
+ * - err, 数据库错误
+ * @param {Function} callback 回调函数
+ */
+ exports.getCountByQuery = function (query, callback) {
+  Paintings.count(query, callback);      
+ }
+
+ /**
  * 获取画集列表
  * Callback:
  * - err, 数据库错误
  * @param {Function} callback 回调函数
  */
- exports.getAll = function ( callback) {
-  Paintings.find()
-            .populate({path:'author',select:'follower_count name avatar'})
-            .sort({'author.follower_count':-1})
-            .exec(callback)
-      
+ exports.getAll = function (page, callback) {
+  if(page.pageNum === 1){
+    Paintings.find()
+              .populate({path:'author',select:'follower_count name avatar'})
+              .limit(page.pageSize)
+              .sort({'author.follower_count':-1})
+              .exec(callback) 
+  }
+  else{
+    Paintings.find()
+              .populate({path:'author',select:'follower_count name avatar'})
+              .skip((page.pageNum-1) * page.pageSize)
+              .limit(page.pageSize)
+              .sort({'author.follower_count':-1})
+              .exec(callback) 
+  }   
  }
 
 exports.newAndSave = function (title, content, authorId, callback) {
@@ -163,4 +183,13 @@ exports.newAndSave = function (title, content, authorId, callback) {
   paintings.author = authorId;
 
   paintings.save(callback);
+};
+
+/**
+ * 根据画集ID，删除画集
+ * @param {String} id 画集ID
+ * @param {Function} callback 回调函数
+ */
+exports.removePaintings = function (id, callback) {
+  Paintings.remove({_id: id}, callback);
 };

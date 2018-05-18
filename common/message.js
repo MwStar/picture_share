@@ -5,16 +5,16 @@ var User         = require('../proxy').User;
 var messageProxy = require('../proxy/message');
 var _            = require('lodash');
 
-exports.sendReplyMessage = function (master_id, author_id, topic_id, reply_id, callback) {
+exports.sendReplyMessage = function ( author_id, img_id, reply_id, master_id, level, callback) {
   callback = callback || _.noop;
   var ep = new eventproxy();
   ep.fail(callback);
 
   var message       = new Message();
-  message.type      = 'reply';
+  message.type      = level;
   message.master_id = master_id;
   message.author_id = author_id;
-  message.topic_id  = topic_id;
+  message.img_id  = img_id;
   message.reply_id  = reply_id;
 
   message.save(ep.done('message_saved'));
@@ -23,17 +23,17 @@ exports.sendReplyMessage = function (master_id, author_id, topic_id, reply_id, c
   });
 };
 
-exports.sendAtMessage = function (master_id, author_id, topic_id, reply_id, callback) {
+exports.sendAtMessage = function ( author_id, master_id, callback) {
   callback = callback || _.noop;
   var ep = new eventproxy();
   ep.fail(callback);
 
   var message       = new Message();
-  message.type      = 'at';
+  message.type      = '3';//表示关注
   message.master_id = master_id;
   message.author_id = author_id;
-  message.topic_id  = topic_id;
-  message.reply_id  = reply_id;
+  //message.img_id  = img_id;
+  //message.reply_id  = reply_id;
 
   message.save(ep.done('message_saved'));
   ep.all('message_saved', function (msg) {
